@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <string.h>
+#include "time.h"
+#include "stdlib.h"
+#include "conio.h"
+#include <windows.h>
+
+
+
+
+
+void wait(long t);
+void BeepSound(int num);
+
+void WinnerSound();
+
+void main()
+{
+	int nums[4];
+	char c;
+	int numhearts, numspades, numdiamonds, numclubs;
+
+	WinnerSound();
+	wait(1);
+	printf("Welcome to a kinda fruit machine - press space bar to spin\n");
+	c = _getch();
+
+	if (c != ' ')
+	{
+		puts("I said SPACE BAR!!! NOOB");
+		exit;
+	}
+
+
+	while (c == ' ')
+	{
+		numhearts = 0;
+		numspades = 0;
+		numdiamonds = 0;
+		numclubs = 0;
+
+
+		for (int i = 0; i < 4; i++)
+		{
+			int numRand;
+
+			numRand = rand() % 4 + 3;
+			printf("%c ", numRand);
+
+			BeepSound(numRand);
+
+			if (numRand == 3) {
+				numdiamonds++;
+			}
+			else if (numRand == 4) {
+				numspades++;
+			}
+			else if (numRand == 5) {
+				numclubs++;
+			}
+			else if (numRand == 6) {
+				numhearts++;
+			}
+		}
+
+
+		if (numclubs == 3 || numdiamonds == 3 || numhearts == 3 || numspades == 3)
+		{
+			printf("Congratulations - you're a winner!!\n");
+			WinnerSound();
+			wait(2);
+		}
+		printf("\n");
+		c = _getch();
+	}
+
+
+
+}
+
+
+void BeepSound(int num) {
+
+	double note = 240;
+	int duration = 300;
+
+	Beep(note * num, duration);
+
+}
+
+void WinnerSound() {
+
+	Beep(1993.45, 500);
+	Beep(757.34, 400);
+
+
+}
+
+
+void wait(long t) {
+
+	long diff = 0;
+	long now = time(NULL);
+
+	long then = time(NULL);
+	while (diff < t)
+	{
+		then = time(NULL);
+		diff = then - now;
+	}
+}
